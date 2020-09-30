@@ -1,0 +1,76 @@
+
+Generics Concept
+====== =======
+The generic views of Django Rest Framework help us in code reusablity. 
+
+generics module providing the so many classes to perform the Data base operations. 
+
+It is also providing some combination classes to to perform the multiple actions at a time.
+
+
+
+Example:
+========
+ListAPIView:		 It is used to get all the data
+
+CreateAPIView:		 It is used to create the new record into database	
+
+
+
+RetrieveAPIView:        It is used to get any specific data  based on id
+
+UpdateAPIView:		It is used to modify any specific data based on id
+
+DestroyAPIView:	        It is used to delete any specific data based on id
+
+
+
+
+
+ListCreateAPIView:  
+                        It is used to get all data and also to post the data
+                       (Here, It can perform both non-key based operations)
+
+
+RetrieveUpdateAPIView:	
+	                It is used to get one data or update any specific data
+
+
+
+RetrieveDestroyAPIView:		
+          It is used to get any specific data or to delete any specific data
+
+
+
+RetrieveUpdateDestroyAPIView:
+	    It is used to get any specific data or update any specific data or  delete             any specific data.
+
+
+
+
+Here , we no need of writing the  handler and action methods name directly. we required only queryset and serializer_class fields .
+
+
+
+
+
+
+
+
+
+
+==================
+
+
+1. The ListModelMixin provides the list() function for serializing a collection to JSON and then returning it as a response to a GET request.
+
+2. The CreateModelMixin meanwhile provides the create() function for creating a new object in response to a POST request.
+
+3. Finally, the GenericAPIView mixin provides the “core” functionality needed for a RESTful API.
+
+
+
+
+note:
+===
+https://juliensalinas.com/en/django-rest-framework-generic-views/

@@ -1,0 +1,176 @@
+
+Q:REST & RESTFul API:
+
+REST: rest is an architectural style, It defines several guide lines to devlop web APIs/web services very
+      easiley in concise way. Hence REST is the popular Architecture to devlop Web Services.
+
+RESTFul API: The API which is devloped by using REST Architecture is nothing but RESTFul API. I.e interface between the user and application where API implements REST
+             Architecture.IN RESTFUL web services HTTP methods like GET<POOST,PUT,UPDATE,DELETE can be used perform curd operations.
+ 
+Q:Explain the architecturl style for creating any web API?
+ANS:The architecturl style for creating web api are
+
+1.We can use HTTP for client server communication
+2.We use XML?JSON to send and recieve messages. i.e XML/JSON acts as formatting language
+3.Each resource/service can be accesed by a unique URL. This URL acts as the address for the resource/service.
+4.Stateless comunication
+
+Q: Explain some Key characterics of REST?
+
+The following are various important key characterics of REST
+
+1.REST is a stateless and hence SERVER has no state(or session data)
+2.With a well-applied REST API, the server can be restarted without any impact on the client
+3.WEb service mostley allow
+    GET -->To access resources
+    POST-->To create resources
+    PUT/PATCH--->To update resources  
+    DELEDTE->To delete resources
+
+Q: Which protocol used by RESTFUL web services?
+ANS: HTTP protocol is a medium of communication between the client and the server
+
+Q: What is "resources" in rest?
+ANS: REST architecture treats any content as a resource,which can be either d/b record,text file,img etc.
+
+Q:Explain Which marku language used in rest api?
+ANS: JSON/XML are mostley used markup language in the rest api.
+
+Q: What is idempotent request?
+Ans: By repeating the request multiple times, if we are getting the same response,
+such type of request is called idempotent request.
+-> PUT is idempotent where as POST is not idempotent.
+
+Q: Difference between POST and PUT?
+
+POST-->POST is to create a new resource,POST is not idempotent
+PUT--->PUT is to update existing resource,PUT is idempotent
+
+Q:Difference between PATCH and PUT?
+ANS: we can use put for full updation and PATCH foe partial updation.
+
+Q: Explain the format of HTTP request or CORE component of http request?
+
+ANS: Every request content 3 part
+1.Request Line
+---------------
+it contain 3 parts
+ 1. request method line
+ 2. Resource Path(like /api/2/)
+ 3. protocol version used by broswer(HTTP/1.1)
+
+2.Request headers
+------------------
+It contain configuration of the broswer(like media types accepted by broswer,encoding type supported by broswer) and extra information about request body.
+
+3.Request Body
+--------------
+It contains original information provided by client
+
+
+Q: Explain the format of HTTP request or CORE component of http response?
+
+ANS: HTTP Response contains 3 parts
+
+1.Status Line
+-------------
+IT contain 3 parts
+  1.HTTP protocol version used by server(HTTP/1.1)
+  2.Status COde(200)
+  3.Description of the status code(ok)
+
+2.Response Headers
+------------------
+It contains extra information about response body like content type, content length etc
+
+3.Response Body
+---------------
+It contains original response(like JSON) which intented for client.
+
+Q: What is payload in RESTFul Web services?
+ANS:The "payload" is the data whatwe are transporting from client application to server application.
+
+Q: What is the upper limit for a payload to pass in the POST method?
+ANS: limit is applicable for payload of GET request.    
+     There is no limit for payload of POST request.
+
+Q:Expalin the term 'Statelessness' with respect to RESTful WEB services?
+
+ANS: 'Statelessness' means complete isolation,server won't maintain any information about client.
+Advantages
+----------
+1.Every request to the server is considered as independent request. i.e no there are no dependencies to previous request.
+2.Any previous comunication with client and server is not maintained and hence the total process is simplified.
+3.Every request contains complete information.
+4.Without affecting client information, we can restart server.
+
+Disadvantages
+-------------
+1.With every request,compulsory client should send extra information like authentication token etc.It is a burden to the client application.
+2.It causes n/w traffic problems and require more bandwidth.
+
+Q: What is the caching mechanism?
+ANS:Caching is the process in which server response is stored so that a cached copy can be used when required a there is no need of generating the same response again.
+
+advantages
+----------
+1.It reduces load on the server
+2.It improves performance of the application
+3.It improves the scalability of the application
+
+Only the client is able to cache the response and that too for a limited period of time.
+
+Q: What is the status code and what are various possible HTTP status codes?
+Ans:HTTP status code represent the status of the response like success or fail etc. 
+The following are possible HTTP status code
+
+1xx--->Informational
+2xx--->Successful
+3xx--->Redirection
+4xx--->Client Error
+5xx--->Server Error
+
+Q: List out some common status codes experienced in your previous project?
+
+code 200:This indicate success
+         -> If we send poost request amd if the resources is available then we will get  response with 200 status code
+
+code 201:This indicate resource has been successful created
+        ->If we send POST request and if the resource created successfully then we will get 201 status code response.
+
+code 204: This indicates that there is no content in the response body.
+        ->If we send delete request and if the resource delete successfully then we will get 204 status code response.
+
+code 404: This indicate there is method available
+        -> If we send GET request and if the requested resource is not available then we will get 404 status code reponse.
+
+code 400:It means BAD request ,states that invalid input i.e provided e.g. validation error, missing data.
+
+code 401: If authentication information is not provided when we will get 401 Unauthorized response.
+
+code 403 Forbidden: If csrf verification fails than we will get 403 status code response.
+
+code 500: It means, INTERNAL SERVER ERROR,states that server has thrown some exception while processing our request
+
+Q:What are the best pratices that are to be followed while designing RESTful web services?
+
+The following are various best pratices while desiging RESTful web services
+1. Every input on the server should be validated.
+2.Input should be will formed.
+3.Never pass any sensitive data through url.
+4.For any session, the user should be authenticated.
+5.Only HTTP error message should used for indicating any fault.
+6.Use message format that is easiley understood and is required by the client.
+7.end point(URL) should be descriptive and easily understood.
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,102 @@
+JSON  Concept:
+====  =======
+JSON is a Java Script Object Notation.
+JSON  is a syntax for storing and exchanging data.
+JSON  is a plain Text , written with JavaScript Object notation format.
+JSON syntax is sub set of the Java Script syntax.
+
+JSON Syntax Rules:
+=====  =====
+JSON Data by using  in "Key and value" pairs we are writing.
+Key and value pairs are separated by commas ,
+Key and values separated by colon(:) ,
+All key/value pairs with in the Curly braces.
+
+example:
+
+ json_data = { "fname" : "Srinivas" , "lname" : "Rao" , "age" : 27 }
+
+
+In JSON structure , Curly braces hold the objects and Square brackets hlod the Arrays
+
+Each key and value should be in a Double quotes if it is strings.
+
+
+MIME value
+---  -----
+MIME stand for Multipurpose Internet Mail Extention.
+
+By suing MIME type attribute we will represents what type of data we want to return as response we are sending the request.
+
+The official Internet media type for JSON is application/json. 
+
+syntax:
+------
+    return Response(resp, content_type='application/json')
+
+
+
+Why do we use JSON?
+=================
+The JSON format is often used for serializing and transmitting structured data over a network connection. 
+
+It is used primarily to transmit data between a server and web application, serving as an alternative to XML. 
+
+JSON is JavaScript Object Notation.
+
+
+
+Why JSON is Better than XML ?? 
+=-=======================
+XML is a much more difficult to Parse the data than JSON.
+
+For AJAXs  applications , JSON is Faster and easier than XML.
+
+JSON  doesn't use the Tags . JSON is Shorter and Use Arrays.
+
+It is very Fast to read and write the data
+
+JSON is Parsed into a ready-to-use javascipt object
+
+Examples:
+======
+Q )   Write a program to define an Employees object with an  Array  of 3 employees by uing JSON structure ????
+
+
+
+
+Using JSON:
+=========
+{
+      "employees" : [
+                { "fname" : "Srinivas" , "lname" : "Rao" } ,
+                { "fname" :  "Virat", "lname" : "Kohli" } ,    
+                { "fname" : "Rohit" , "lname" : "Sharma" } , 
+       ]
+}
+
+
+Q )   Write a program to define an Employees object with an  Array  of 3 employees by uing XML structure ????
+
+<employees>
+        <employee>
+                  <fname>Srinivas </fname>
+                  <lname>Rao </lname>
+       </employee>
+
+        <employee>
+                  <fname>Rohit </fname>
+                  <lname>Sharma </lname>
+       </employee>
+       
+       <employee>
+                  <fname> Virat</fname>
+                  <lname>Kohli </lname>
+       </employee>
+</employees>
+
+
+
+
+
+

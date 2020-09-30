@@ -1,0 +1,134 @@
+
+Step 1 :
+
+cmd> pip install django-rest-swagger
+
+Step 2:
+======
+Add 'rest_framework_swagger' to INSTALLED_APPS in Django
+settings.py
+
+INSTALLED_APPS = [
+    ...
+    'rest_framework_swagger',  # Add this one
+    ...
+]
+
+
+Step 3:
+========
+open urls.py file and add the code like
+
+from rest_framework_swagger.views import get_swagger_view
+
+schema_view = get_swagger_view(title=' Swagger API for Employee')
+
+from rest_framework.documentation import include_docs_urls
+swagger_documentation = include_docs_urls(
+                title='Swagger API Documentation for Employee')
+
+urlpatterns = [
+    ...
+    url(r^swagger_api/', schema_view), # add this line
+    url(r'^swagger_docs/', swagger_documentation),
+    ...
+]
+
+
+
+Note:
+====
+If you want to provide documentsation for your API,
+django REST Framework as a support
+
+ for that.
+ Django REST Swagger , used for generating well Known swagger documentation
+
+get_swagger_view() :
+================
+is a method, witch will generate  Swagger UI documentation for your API.
+
+This method have two optional parameters.
+
+1) title (of your Swagger documentation) and
+2) url (to your Swagger documentation.)
+
+
+You can customize configuration for your Swagger docs  by defining
+"SWAGGER_SETTINGS"  dictionary in your settings.
+
+for example, you can display request headers and list HTTP requests that
+allow interacting with them
+ (only supported methods will have "Try it out" button.)
+
+
+
+SWAGGER_SETTINGS = {
+
+          'SUPPORTED_SUBMIT_METHODS' : [
+                                     'get' , 'post',
+            ] ,
+          'USE_SESSION_AUTH' : False ,
+}
+
+
+If it is also possible to provide customised configuration for your
+authentication mechanism.
+
+For instance ,  if you don't want to use Django authentication system
+for swagger docs , set USE_SESSION_AUTH to  False  value.
+
+If we do like this there will not be a  Django Login button  on the top of
+your docs.
+
+
+Definitions
+==========
+Django Rest Swagger is used to provide Documentation for all API's
+which are used in your application with brief description
+about each API individually.
+It is Open Source so you can contribute to the project.
+
+What is Swagger?
+************
+Swagger is a set of open-source tools built around the OpenAPI Specification
+that can help us to design, build, document and consume REST APIs.
+
+
+ The ability of APIs to describe their own structure is the root of all
+  awesomeness in Swagger. Note that Swagger not only helps us to design
+  and document REST APIs, it also lets us build (Server Stub) and
+  Consume (Rest Clients) REST APIs.
+
+
+=========    ============
+
+ Django Rest Framework 3.10 (released a few days ago) deprecated the
+  CoreAPI based schema generation, and introduced the OpenAPI schema
+ generation in its place. Currently to continue to use django-rest-swagger
+ as is you need to re-enable the CoreAPI schema generation by adding
+  the following config to the settings file:
+
+
+REST_FRAMEWORK = {
+     'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema'
+}
+
+
+Note: otherwise we will get like bellow.
+=================
+AttributeError: 'AutoSchema' object has no attribute 'get_link'
+
+
+
+
+Continuing to use CoreAPI
+=======================
+If you're currently using the CoreAPI schemas, you'll need to make sure to update your REST framework settings to include DEFAULT_SCHEMA_CLASS explicitly.
+
+settings.py:
+
+REST_FRAMEWORK = {
+  ...
+  'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema'
+}

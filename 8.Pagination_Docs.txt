@@ -1,0 +1,325 @@
+
+What is a query string parameter?
+=========  ==========   =========
+
+Query parameters are a defined set of parameters attached to the end of a url.
+
+They are extensions of the URL that are used to help define specific content or actions based on the data being passed.
+
+
+
+Pagination Concept :
+========  =======
+Q ) How do you get all the resources from db ?
+
+       By usinng Non_id based URL  like   http://127.0.0.1:8000/api/emp/   
+
+       Then we will get 4 to 5 resources  up to now, means in our db only we have few records. So no  problem.
+
+---->> Some times we may have 100s of resources. Then that time , for displaying all records at a time some what difficult.
+
+---->> If huge number of records are there in DB ,  then heighly recomended those resources divide into across the multiple pages which is nothing but "Pagination " concept.
+
+---->> Pagination is a process of Splitting of Large number of DB records into multiple pages.
+
+---->> If the number of records are very High then we will go for Pagination concept.
+
+---->> DRF provides sevaral Pagination classes to implement Pagination  concept in our existing Project.
+             1 . PageNumberPagination
+	     2 . LimitOffsetPagination
+	     3 . CursorPagination 
+
+
+
+
+
+
+Q ) How do you provide Pagination ?  How do you ennable Pagination Globally and Locally  ?
+
+Ennable Pagination Globally :
+=======  ======   ========
+in settings.py file ,
+   
+  REST_FRAMEWORK = {
+     'DEFAULT_PAGINATION_CLASS' :  'rest_framework.pagination.PageNumberPagenation',          
+     'PAGE_SIZE'  :  10
+  }
+
+
+By using PAGE_SIZE   key , we are reprisenting  for every page  , How many resources you want to display.
+This is the way to provide Pagination globally.
+
+
+Q ) can you please tell these settings applicable for perticular view class or for all view classes ?
+    
+     In side settings.py file  , we are  providing  these  Pagination  setting class . 
+     So entire project or for all the view classes it is applicable.
+
+
+Ennable Pagination Locally :
+=======  ======   ========
+In side views.py ,  we add llike 
+
+from rest_framework.pagination  import  PageNumberPagination
+
+class EmployeeAPIView(generics.ListAPIView):
+	queryset          =  -----
+	serializer_class  = -----
+
+	pagination_class  = PageNumberPagination
+
+
+
+To provide  project level  pagination  then we create , 
+
+REST_FRAMEWORK = {
+   'DEFAULT_PAGINATION_CLASS'  :  'rest_framework.pagination.PageNumberPagenation', 
+ }
+
+here no 'PAGE_SIZE' :   10   ---->> So all records we are getting at a time .
+
+If you are using  'PAGE_SIZE' :   10   --->> then we are getting pagination effect on browser easily.
+
+
+
+here , we are getting  
+
+"count" : 120  --->> key , it indicates how many records are available. 
+
+"next" :   a link   with next  page number where we have .
+
+"previous" :   a link   with  previous page number where we have .
+
+"results" :  in list of objects
+
+
+testings:
+====
+127.0.0.1:8000/api/emp/?page=5    --- >> here  "page"  is a default attribute
+
+If we are providing like this , then directly  5th page  we are going to get.
+
+If you want to provide locally pagination where you are providing  PAGE_SIZE  value.
+
+PAGE_SIZE  and  any other properties  if you want to change then  we have to create our own class with Custom properties.
+
+
+from rest_framework.pagination  import  PageNumberPagination
+class MyPagination(PageNumberPagination):
+               page_size = 5
+
+then in our main view class inside views.py  we add like  ,  pagination_class = MyPagination
+
+from  .pagination  import  MyPagination
+class EmployeeAPIView(generics.ListAPIView):
+	queryset          =  -----
+	serializer_class  = -----
+	pagination_class  = MyPagination
+
+
+To override default  'page'  attribute with user defined attribute for indicating page numbers we use 
+             page_query_param  = 'mypage'     
+
+Example:     127.0.0.1:8000/api/emp/?mypage=7   
+  
+here  mypage , we called as  user defined  query parameter name attribute.
+
+If you want to display in each page , how many records occur  then we use 
+           page_size_query_param  =  'num'
+
+example :  127.0.0.1:8000/api/emp/?mypage=7&num=3
+
+    here  we will get directly 7th page , and each page contains 3 resources.
+
+If we are using      max_page_size  = 5   then  for each page maximum records 5 only display  even though if you specify more number of records like  num=10 .    ( page_size_query_param  =   'num' )
+
+If you are taking num = 3  then only  3  records  we will get   but not 5 records.
+
+
+last_page_strings = ('endpage' ,)
+
+it indicates the  directly last index page number , default  value for this is  'last'  .
+          
+           127.0.0.1:8000/api/emp/?mypage=endpage&num=3   ---->> here endpage is user defined page
+
+           127.0.0.1:8000/api/emp/?mypage=last&num=3  ----->> here last  is default page
+
+These all attributes are required in   MyPagination  class.  required for  PageNumberPagination   class.
+
+NOTE :
+======
+In side views.py file  only required  our   user defined veiwNames  But not special user defined class creation logics  like MyPagination.
+
+For that create one pagination.py file under app name  and write all above code.
+
+from rest_framework.pagination import PageNumberPagination
+
+class MyPagination(PageNumberPagination):
+	page_size = 5 
+
+	page_query_param  = 'mypage'  #  default value is 'page'
+
+	page_size_query_param = 'number'  
+                #how many records to each page  it indicates 
+
+	max_page_size = 15
+
+	last_page_strings  = ('endpage',  ) 
+               #   default value is  ('last',)  --- >> tuple.
+
+
+
+
+2 )  LimitOffsetPagination:
+      =================
+
+Q ) What is the difference b/w  both above classes ?
+  
+In the PageNumberPagination  class ,  we can set information like
+   I want 4th or 3rd page , each page contains 10 records only.
+
+But some times our requirement  is  I want  40 records  starts from  55 index on words (means from 56)
+here limit = 40   and  offset = 55   
+
+So when you want records from  so and so  index  then  offset we use ,   how many records you want to display  in that page purpose  we use  'limit'
+
+default value for  limit  is   ---->>> default_limit value
+
+Example
+=======
+
+from rest_framework.pagination import LimitOffsetPagination
+
+class  MyPgination(LimitOffsetPagination):
+	default_limit = 15
+
+	limit_query_param = 'mylimit' 
+
+	offset_query_param =  'myoffset'
+
+	max_limit  = 20
+
+
+
+127.0.0.1:8000/api/?limit=13&offset=20 ----->> default
+
+
+127.0.0.1:8000/api/?mylimit=13&myoffset=20----->> Overriding
+
+
+from 21th records on words  13 records you will get as output.
+we can customise limit & offset  parameters also
+
+for limit customization   ,  default_limit  = 15
+127.0.0.1:8000/api/?offset=20
+
+
+
+CursorPagination :
+======== ====== 
+To get  the all records  in ascending order  based on employee salaries but  5  records per each page i want to dispaly then we go for CursorPagination.
+
+class  MyPgination3(CursorPagination):
+	#ordering  =  '-salary'
+	page_size  = 5
+
+
+here default field is  ordering ,
+
+by default this class is taking   (-created)  attribute as a  default  value.
+example :         ordering = 'created'
+
+class  MyPgination3(CursorPagination):
+	pass     #  -creared   ---->>  default value
+
+Now execute this program like   127.0.0.1:8000/api/  ---->>we will get Exception like
+     
+  FieldError  at /api/ 
+       Cannot resolve keyword 'create' into field.  Choices are  eaddr , ename ,eno , esal, id
+
+To over come that problem , I want to override this default value like  
+ordering = 'esal' ---->> 
+
+If you dont want assending order ,  if you want desending order based on esal  then write as  ordering = '-esal'
+
+
+
+PageNumberPagination
+====================
+Here , we talk about    page by page   and  page_size .  We cannot talk about  offset  and  ordering values.
+
+LimitOffsetPagination
+========   =======
+Here , we can talk about  limit and offset  values  but not  talk about  ordering values.
+
+CursorPagination
+==============
+Here , we can talk about  ordering &  page_size only.
+ 
+
+
+
+DRF - Filtering
+================
+Searching /filtering and Ordering:
+---------------------------------
+
+two types of filtering
+
+1. Plain Vanilla Filtering
+--------------------------
+By Overridding get_queryset() method
+
+pagination.py
+-------------
+class Mypagination3(Cursorpagination):
+     ordering = 'esl'
+     page_size = 5
+views.py
+--------  
+from webapp.pagination import MyPagination3
+
+class EmployeeListview(ModelViewset):
+    queryset=Employee.objects.all()
+    serializer_class=EmployeeSerializer
+    def get_queryset(self):
+       qs=Employee.objects.all()
+       name=self.request.GET.get('ename')
+       if name is not None:
+          qs =qs.filter(ename__icontains=name)
+       return qs
+
+ 2. DRF filtering concept
+==========================
+-> it is easy to use  and more convinent than vanila filtering 
+settings.py
+-----------
+
+REST_FRAMEWORK = {
+   'DEFAULT_PAGINATION_CLASS':'rest_framework.pagination.PageNumberPagenation', 
+   'PAGE_SIZE':10,
+   'DEFAULT_FILTER_BACKENDS' : ('rest_framework.filters.SerarchFilter','rest_framework.filters.OrderingFilter')
+ }
+
+views.py
+--------  
+from webapp.pagination import MyPagination3
+
+class EmployeeListview(ModelViewset):
+    queryset=Employee.objects.all()
+    serializer_class=EmployeeSerializer
+   #search_fields=('ename',''eno') #first serach ename if value not found then serarch eno
+    search_fields=('=eno') # = means exact match or ^ means start with
+    ordering_fields=('eno','esal')
+
+
+
+
+
+
+
+
+
+
+
+

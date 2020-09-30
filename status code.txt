@@ -1,0 +1,61 @@
+200(ok) - successful carried out whatever action the client requested
+201(created) - whenever a resource is created inside collection.
+202(Accepted) -  It indicates that request has been accepted for processing.
+203(Non-Authoritative Information)
+204(No Content) - When we are sending the request to delete the data, it successfully
+                  deleted then it returns 204, no content
+
+
+300 - multipul choices
+301 - moved permanently
+302 - found
+303 - See Other
+304 - Not modified
+
+
+400(Bad request) - when we are sendingthe request to perticular resources, but the resources 
+        are not available then it returns
+
+401(Unauthorized) - client tried to operate on a protected resource without providing
+                    the proper authorization
+
+403(Forbidden) - 
+
+404(Not found) - REST API can't MAP the client url
+
+405(Method Not Allowed) - Client tried to use an HTTP method that the resource doesn't allowed
+
+406(Not Acceptable) - 
+
+412(Precondition faield) - 
+ 
+415(Unsupported Media Type) -
+
+500(Internal Server Error) - 
+501(Not Implemented)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

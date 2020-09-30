@@ -1,0 +1,181 @@
+Token Based Authentication
+==========  =============
+In This Authentication model , users or clients are authenticated by using a user "Token Value".
+
+For every user , Admin generates a "Token value" and it will be stored in Database.
+
+Before accessing the REST API URLs , a user has to get a Token value
+from the db by sending username and password.
+
+
+Here, when we are sending  username and password then  one builtin view  is responsible to get the Token value  
+from  Tokens table by taking your credentials.
+
+authtoken ->inbuilt application provided by drf 
+
+from rest_framework.authtoken.views  import    obtain_auth_token
+
+
+   url(r'gettoken/$', obtain_auth_token),
+
+
+
+
+
+Q )  Which type of request is required to get   Tokens  value  from Database ?
+
+
+Note : here , we are sending the  POST  request only to get  Token value by using username and password but not GET request.
+
+After obtaining the Token value, user has to send  this Token  value with "Authorization" header to access a Rest API.
+
+Open headers menu,
+
+key   as   "Authorization"   and  value  as    "Token token_value".
+
+
+
+
+
+Generating the  Token Value :
+===========      ==========
+Step1 :-    Create the superuser credentioals , login into the admin
+            site. 
+
+           Admin can  create "new users" if required.
+
+
+           All users names are stored in  "Users" table section in admin site.
+
+
+
+step2 : -  You will see "Token" app section on admin site. 
+
+           If you click on that, initially  no tokens are available.
+              
+           If you  want to add "Token value" to any perticular user , then
+           click on  "Add Token" button  
+
+            ---->>> select   required  user in  select menu
+
+            ---- >> click on   "Save" button
+
+            --->> then you will get "Token value" to that user. 
+
+
+Q ) How do we get Token value from database ? --->> 
+        by sending username and password  as input with POST request to the obtain_authtoken. Then it goies to tokens table and getting tokens value.
+
+Q ) Which request we are sending to get the Token Value ? ---> POST
+
+Q ) Which view is responsible to get the Token value from db ? --->> obtain_authtoken
+
+
+
+
+Project name : Token_Authentication_Project
+
+Application name : Token_Authentication_App 
+
+database name :  Token_Authentication_db
+
+Step : In settings.py file , add database configurations 
+
+Step : goto installed apps array and add the following  apps
+       INSTALLED_APPS = [
+		-------
+		------
+		'rest_framework',
+		
+                      #   Token concept
+	]
+
+step : Append the following security settings to the settings.py file
+	
+	REST_FRAMEWORK = {
+	    'DEFAULT_AUTHENTICATION_CLASSES' : ('rest_framework.authentication.TokenAuthentication',),
+                        'DEFAULT_PERMISSION_CLASSES' : ('rest_framework.permissions.IsAuthenticated' , )
+	}
+
+step : copy views.py , models.py , serializers.py , admin.py and urls.py files from   BasicAuthentication example.
+
+step : open urls.py file of project and add the following code.
+	
+	from django.contrib import admin
+	from django.urls import path
+	from django.conf.urls import url, include
+	from rest_framework.authtoken import views
+	urlpatterns = [
+		path('admin/')
+		url(r'api/', include('TokenApp.urls')),
+		url(r'gettoken/$', views.obtain_auth_token),
+	]
+
+
+->authtoken application can validate this username and password.
+->authtoken application will check whether Token is already generated for this user or not
+->if token already generated for this user,then existing token will be return
+->If the is not already generated, then a new token is created and stored in tokens table and send token as the response
+
+
+	           Execution Process:
+                   ========       ========
+                open postman tool and do the following .
+	
+step 1:	Change method as POST and type the URL ----->> http://localhost:8000/gettoken/
+	
+                 click on "Body" , select "raw" radio button , change text as a "JSON", and type the following 		                   JSON string. 
+	{
+	   "username" : "Srinivas" , 
+	   "password" : "admin123"
+	}
+  `	click on "headers" and select  "content_type" as  "application/json"
+	click on "send" button & observe the "Token value" in response body.
+
+
+step 2:   open new tab , change method as "GET" and enter the URL as 	http://localhost:8000/api/
+	
+                click on "Headers" , enter the key as "Authorization" and value as "Token  token_number" and then 	                  click on "send" button.
+	Then in response body , we will get  "http://localhost:8000/api/emp_viewset"  url  in JSON format.
+
+
+step3 :    open new tab , change method as "GET" and enter the URL as 	"http://localhost:8000/api/emp_viewset"  
+	
+               click on "Headers" , enter the key as "Authorization" and value as "Token token_number" and then 	                  click on "send" button.
+	Then in response body , we will get  All Resources in JSON format.
+
+
+step4 :    open new tab , change method as "GET" and enter the URL as "http://localhost:8000/api/emp_viewset/id"  
+	
+                 click on "Headers" , enter the key as "Authorization" and value as "Token token_number" and then 	                  click on "send" button.
+	Then in response  body , we will get  Specific Resource in JSON format.
+
+
+step5 :    open new tab , change method as "POST" and enter the URL as 	"http://localhost:8000/api/emp_viewset"  
+	
+                click on "Headers" , enter the key as "Authorization" and value as "Token token_number" and 
+                  click on "Headers" and select "content_type" as  key ,  "application/json" as value
+
+	click on "Body" button , click on "radio" button , select "JSON" type then  Provide Json format object
+                   click on "send" button.
+	
+                Then we will get "201 Created" message
+
+
+step6 :    open new tab , change method as "PUT" and enter the URL as 	                 		                   		                                               "http://localhost:8000/api/emp_viewset/id/"  
+	
+                click on "Headers" , enter the key as "Authorization" and value as "Token token_number" and 
+                  click on headers and select content_type as application/json
+	
+                  click on "Body" button , click on "radio" button , select "JSON" type then  Provide Json format                    		                  Updated object.
+                   click on "send" button.	
+                Then we will get response message
+
+step7 :    open new tab , change method as "DELETE" and enter the URL as 	                 			                     "http://localhost:8000/api/emp_viewset/id/"  
+	
+                click on headers , enter the key as "Authorization" and value as "Token token_number" and 
+                  click on headers and select content_type as application/json	
+                   click on "send" button.
+                Then we will get "204 No Content" message.
+	
+Note : With username and password , we can get Tokenid from db and then with this token id we can get 	       data from db using api      

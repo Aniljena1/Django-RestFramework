@@ -1,0 +1,338 @@
+
+
+Limitations of Token Authentication
+=========   =======  ============
+In TokenAuthentication , all tokens will be stored in database table (Tokens table).
+
+For every request DRF will communicate with the database to validate token and to identify cooresponding user. 
+
+This database interaction for every request creates performance problems. Hence scalability of api will be down.
+
+
+To over come this problem , we should go for JWT Authentication.  
+
+The main advantage of JWT Authentication over TokenAuthentication is database interaction is not required to identify the user .
+
+From the token it self , DRF can identify user ,which improves performance and scalability of the application. 
+
+Because of this advantage , JWTAuthentication  is the most commonly used type of authentication in real time. 
+
+
+
+Why JWT ?
+========
+To get user information for the token , db communication must be required. Because of that , so performance is going to be down and if the no of requests are increased  then scalability of application by default is going to be down. 
+
+--->> So performance wise and scalability wise , the Token Auth  is not  recomended . To over come this problem we sholud  go for JWT authentication.
+
+
+
+
+What is  JWT :
+==========
+A JSON web Token (JWT) is a JSON object that is defined as a safe way to represent a set of information between two parties. 
+
+The token is composed of a header, a payload, and a signature.
+
+                    XXX.YYY.ZZZ
+
+
+
+Working  Flow :
+======  =====
+To show how and why JWT are actually used, we will use a simple 3 entity example . 
+
+The entities in this example are the user, the application server, and the authentication server.
+
+The authentication server will provide the JWT to the user. With the JWT, the user can then safely communicate with the application.
+
+
+JWT Architecture:
+==== =========
+
+   here diagram
+
+
+Flow Diagram
+====  ======
+User sign-in (using id/password , gmail, facebook etc..) ------->> Authentication Server  ------->User Authenticated  ,JWT created , and returned to user  ------>> Now User  send JWT  when they making API calls ---->>  Application Server  ----->> Application verifies the JWT and Processes the API calls back to  ---->>User.
+
+
+Explanation:
+==========
+ Here , the user first signs into the authentication server using the authentication server’s login system (e.g. username and password, Facebook login, Google login, etc). 
+
+The authentication server then creates the JWT and sends it to the user.
+
+When the user makes API calls to the application, the user passes the JWT along with the API call. 
+
+In this setup, the application server would be configured to verify that the incoming JWT are created by the authentication server .
+
+So, when the user makes API calls with the attached JWT, the application can use the JWT to verify that the API call is coming from an athenticated user or not.
+
+
+
+
+
+
+
+Difference :
+=========
+Token value is light weight but JWT token value  is heavy weight.
+
+Means  Token value  doesn't contain user information.
+
+JWT contains user information also. here payload is there, in that    user_id     available.
+
+
+
+
+
+JWT  [JSON  Web Token] :
+====   ==============
+This authentication is not inbuilt  support of DRF . We have to install  separately 3rd party modules.
+
+There are  sevaral third  party packages are available to implement JWT Authentication for  DRF like,
+
+1 )  djangorestframework-jwt
+
+2 )  django-rest-framework-simplejwt
+
+
+How  JWT  Works ?
+===============
+The JWT is just  an  authorization  token that should be included in every request.
+
+This  authentication associated  with  the following token  management terminology.
+
+1 )  Access Token  :
+==============
+This  token can used to access our end point . The default expiration time is  5 minutes. Ofcourse it is Customizable.
+
+We can generate access token  by using the following  configurations  in urls.py.
+
+ 
+from rest_framework_jwt.views import  obtain_jwt_token,refresh_jwt_token,verify_jwt_token 
+
+urlpatterns = [
+     .....
+    url(r'^api-token-auth/',obtain_jwt_token),
+    url(r'^api-token-refresh/',refresh_jwt_token),
+]
+
+2) Refresh Token
+================
+  Non-exipried token can be "refreshed" to obtain a brand new token with renewed expiration time.
+-> only 7 days
+
+
+3 ) Verify Token :
+==================
+ We can verify weather the token is expired or not by using the  following  url  configurations in urls.py.
+
+from rest_framework_jwt.views import   verify_jwt_token
+urlpatterns = [
+    ......
+    url(r'^api-token-verify/',verify_jwt_token),
+]
+
+
+Passing a token to the verification endpoint will return a  200 response  and the token  if it is valid.
+
+Otherwise , it will  return a  400  Bad Request as well as an error  identifying  why the  token was invalid.
+
+
+Note :  This tokens  and  expiration  time concept is required to provide  security.
+
+why means JWT  Token holds more information  than Tokens of TokenAuthentication.
+
+
+
+
+
+How To  Implement  JWT  Authentication in our Project :
+=====    ========     ====   ============
+1 ) We have to install djangorestframework-jwt  by  using  pip command
+
+       cmd > pip install  djangorestframework-jwt
+
+
+2 )  We have  to configure  the following  url-patterns  to  perform  access  token  and  verify token in  urls.py file.
+
+urls.py
+=====
+
+from rest_framework_jwt.views import   obtain_jwt_token,  verify_jwt_token
+
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('api/',include(router.urls)),
+
+    url(r'^api-token-auth/', obtain_jwt_token),
+   
+    url(r'^api-token-verify/',verify_jwt_token),
+]
+
+
+
+Ennabling    JWT    Authentication class in     views.py
+=========   ===   ==============  ===========
+from rest_framework_jwt.authentication import  JSONWebTokenAuthentication
+
+
+class Emp_ViewSet(ModelViewSet):
+         queryset = Employee.objects.all()
+         serializer_class = EmployeeSerializer
+
+         permission_classes = (IsAuthenticated,)
+         authentication_classes = (JSONWebTokenAuthentication,)
+
+
+
+
+
+Settings.py file  
+==========   
+In settings.py  file  if you want to override  the  default values  with  userdefined values  then we need to add like
+
+import datetime
+JWT_AUTH ={
+     #JWT_ALLOW_REFRESH':True,
+    # "JWT_AUTH_HEADER_PREFIX" :'JWT',
+    # "JWT_EXPIRATION_DELTA":datetime.timedelta(seconds=300),
+    # "JWT_REFRESH_EXPIRATION_DELTA":datetime.timedelta(days=7),
+   
+    "JWT_AUTH_HEADER_PREFIX" :'SRI',
+    "JWT_EXPIRATION_DELTA":datetime.timedelta(seconds=120),
+    "JWT_REFRESH_EXPIRATION_DELTA":datetime.timedelta(days=15),
+}
+
+
+
+
+
+
+
+
+
+Obtaining Access token 
+=========  ========
+To Access token  value  ,  we need to send  POST  request using  Postman.
+
+Step 1 )  Select Body section  ---->> select form-data --->> 
+          enter key  as  username  and  value  as  Srinivas
+          ----->enter key  as  pssword and  value  as  admin123
+
+       POST    http://127.0.0.1:8899/api-token-auth/   
+       ------>>we are getting the JWT  TOken Value.  200 Status code.
+
+
+{
+    "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.
+
+eyJ1c2VyX2lkIjoxLCJ1c2VybmFtZSI6IlNyaW5pdmFzIiwiZXhwIjoxNTYzNTQ0ODU3LCJlbWFpbCI6IiJ9.
+
+WLChN1OooGGk4zHFZucVPlbdCe3XdiLVn12iYJOqzfY"
+
+}
+
+
+
+The 3  parts of JWT  Token :
+=====   ========  ======
+In JWT  Authentication  ,  the  token is composed by  three  parts  like
+        header.payload.signature
+
+
+Step 2 )  To Access the API to getting all records.
+                 ===========     ==================
+
+select   GET    http://127.0.0.1:8899/api/emp/   ----->> in url path section.
+
+Click on  "Headers" and enter--->>  Key  as  "Authorization"   and ---->>  value  as   JWT  eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJ1c2VybmFtZSI6IlNyaW5pdmFzIiwiZXhwIjoxNTYzNTQ0ODU3LCJlbWFpbCI6IiJ9.WLChN1OooGGk4zHFZucVPlbdCe3XdiLVn12iYJOqzfY
+
+output:
+======
+[
+    
+     {
+  
+         "empid": 10,
+   
+         "empname": "Srinivas",
+    
+         "salary": "10000.00",
+ 
+         "location": "Hyderabad"
+  
+     },
+   
+    {
+  
+      "empid": 20,
+ 
+       "empname": "Virat",
+ 
+       "salary": "20000.00",
+  
+      "location": "Delhi"
+ 
+   },
+]
+
+Note :   After  5 minutes  if you are trying  to access the API  for data  with same  access key value  then we are getting exception  like   401  Unauthorized
+
+select   GET    http://127.0.0.1:8899/api/emp/   ----->> in url path section.
+
+Click on  "Headers" and enter--->>  Key  as  "Authorization"   and ---->>  value  as   JWT  eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJ1c2VybmFtZSI6IlNyaW5pdmFzIiwiZXhwIjoxNTYzNTQ0ODU3LCJlbWFpbCI6IiJ9.WLChN1OooGGk4zHFZucVPlbdCe3XdiLVn12iYJOqzfY
+
+output :
+======
+status code  is  401  Unauthorized.
+
+{
+   
+     "detail": "Signature has expired."
+
+}
+
+
+
+
+Verification Token
+========    =====
+select "Headers" section ---->>  enter  key as  "Content-Type"   and   value  as   "application/json"  --->> select Post method with required url  like below
+ 
+POST  http://127.0.0.1:8899/api-token-verify/ 
+
+In side body  section  enter  json  input like 
+{
+	
+"token" : "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJ1c2VybmFtZSI6IlNyaW5pdmFzIiwiZXhwIjoxNTYzNTQ3NTI2LCJlbWFpbCI6IiJ9.MqSk442WbhiwdY43qmZdOiqxlWfCwFIXd_JzsBWq08E"
+
+}
+
+output :
+=====
+status code is :  200  Ok
+{
+    
+"token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJ1c2VybmFtZSI6IlNyaW5pdmFzIiwiZXhwIjoxNTYzNTQ3NTI2LCJlbWFpbCI6IiJ9.MqSk442WbhiwdY43qmZdOiqxlWfCwFIXd_JzsBWq08E"
+
+}
+
+
+Fail output as  
+==========
+Status code is  :  400 Badrequest.
+{
+   
+     "non_field_errors":  [
+      
+             "Signature has expired."
+    
+      ]
+
+}
+

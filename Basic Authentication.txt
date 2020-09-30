@@ -1,0 +1,201 @@
+
+Security :
+======
+If you want to get all records from db.. how do you get ...?
+
+By using get all resources url like ------->>>>>  http://127.0.0.1:8000/api/emp/  
+
+then you will get easily data by using this URL. Any person can get the your data , may delete or modify your data. means any thing they may do unnessasarily .
+
+for example ,
+get           ------------------>>>>   from db
+post            ---------------->>>> into db
+delete  / update   ------>>>> into db
+
+
+Till now we are developing the APIs with out having security.  As a REST API developer we need to provide security to our APIs to control the  3rd party persons.
+
+
+To provide security to our database we are using the  Authentication and Authorization  mechanisams.
+
+Authentication :
+============
+The process of validating the user credentials is called as Authentication.
+
+for example ,
+    ---->> If you want open gmail account ----->> it requires Uname & Pwd .
+	
+    ---->>If you are a emloyee in any software company , then security guard will ask you access card.           With  out id  he may not allowying you , This is nothing but Authentication 
+
+
+
+Most of the times we are checking the Authentication  by using Uname & pwd only. Some times by using Tokens it is checking valid person or not.
+
+
+DRF provides  several in_built authentications. They are
+=================
+
+1. BasicAuthentication 
+2. SessionAuthentication 
+3. TokenAuthentication 
+
+4. JWT(Json Web TokenAuthentication) ---->>3rd party
+
+
+    from rest_framework.authentication import BasicAuthentication 
+
+
+Authorization :-
+==========
+The process of validating the access permissions of user is called Authorization.
+
+For example ,
+    If you have ICICI bank account . by telling your account number, Uname and pwd , you may get your 	    balance details only. But not others account.
+
+    If you are asking bank employees then they may tell you , Sory you are not Authorization person.       We cant tell you sir...
+
+
+NOTE : After Authentication ---->> we have to perform Authorization.
+
+
+Q )  Is  Every Authentication person is an Authorization person or not ....?    No
+
+Q )  Is Every Authorization  person is an Authentication  person or not ....? Yes
+
+
+
+
+DRF provides sevaral Permission classes. They are 
+==============
+AllowAny ---->> Any person cam allow to access.no restriction
+
+IsAuthenticated ----->>>Only Authenticated persons can access the data . 
+                        If not Authenticated then it returns some exception messages  like   401 UnAuthorised  access.
+
+
+
+IsAdminUser  ------>>> If the user is Admin user then only he is allowed to perform operation.                                operations. If not admin persion then returns exception like                              You dont have permission  to do this operation .
+
+
+IsAuthenticatedOrReadOnly  ---->>>> Here any person can perform read the data only but authenticated person can write.                                  possible. if user is Authenticated then CRUD                                     also possible.
+
+
+    from rest_framework.permissions import IsAuthenticated
+
+DjangoModelPermissions ->
+DjangoModelPermissionsOrAnonReadOnly ->
+
+READ Operation -> GET,OPTIONS,HEAD  ->safe http methods
+Write Operation -> POST,PUT,PATCH,DELETE
+
+
+  
+different ways are there to provide security to Project.
+
+1 ) Project level  security 
+
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES':
+           ('rest_framework.authentication.BasicAuthentication',),
+
+    'DEFAULT_PERMISSION_CLASSES':
+          ('rest_framework.permissions.IsAuthenticated',),
+}  
+
+
+
+
+2 ) Class level   security 
+
+from rest_framework.authentication import BasicAuthentication
+
+from rest_framework.permissions import IsAuthenticated
+
+
+class EmployeeViewData(MVS):
+     queryset = ....
+     serializer_class = ....
+    
+     authentication_classes = (BasicAuthentication,)
+
+     permissions_classes = (IsAuthenticated,)
+
+
+
+
+
+
+BasicAuthentication:
+=============
+This Authentication model only allows already logged in users to access the Rest API.
+
+To make a user as logged user, the application has to send a login page on to the Browser to accept Username and Password.
+
+The application has to verify the credentials , if they are valid then it should make that user has a logged in user as well as it sholud redirect the user to access the REST API.  
+
+If credentials are not valid then the application has to resend loggin form again to access the Username and password .
+
+cons
+-----
+->
+
+
+
+
+Note:   Session Authentication
+=====   =====  ===========
+If we are using Session Authentication then we need to develop user defined Login page.
+
+After providing the credentials we need to get those values and validating those values.
+
+
+
+
+
+
+
+Session Authentication flow:
+=======  ==========    ===
+1 ) http://127.0.0.1:8877/auth/  ------>>  def login_form(request):------->>> login.html opens.....uname and pwd providing......submit...------>>> def login_user(request):-----checks valid or not.  ---- if not valid send same
+login.html....
+if valid send to api accesss link...---->>> call model view.... get output..
+
+
+
+
+
+API Testing from "POSTMAN"  ways.
+=======  = ==========
+step1 )   GET ------>>> http://127.0.0.1:7766/api/emp_viewset/     
+	Select "Authorization" ----->>> select Type  as  "Basic Auth" ------>> Provide Username and Password   ---> click "Send" button.     ------->>> You are getting status code  as  "200 Ok" and Output also.
+
+
+step2 )   POST  ------>>http://127.0.0.1:7766/api/emp_viewset/     
+	Select "Authorization" ----->>> select Type  as  "Basic Auth" ------>> Provide Username and Password  
+
+
+	click on  "Body"  ---->> click on  "raw" radio button  ---->>> select JSON(application/json)
+	in Body section  provide your object ------->> click on  "Send"  button.
+	You will get output  and   status code as   "201  created".
+
+
+step3 :    PUT  ------>>>http://127.0.0.1:7766/api/emp_viewset/70/
+	Select "Authorization" ----->>> select Type  as  "Basic Auth" ------>> Provide Username and Password  
+	click on  "Body"  ---->> click on  "raw" radio button  ---->>> select JSON(application/json)
+	in Body section  provide your updated object ------->> click on  "Send"  button.
+	You will get output  and   status code as   "200 ok".
+
+step4 :  DELETE ---->>> http://127.0.0.1:7766/api/emp_viewset/70/
+	Select "Authorization" ----->>> select Type  as  "Basic Auth" ------>> Provide Username and Password 
+	click on  "send" button
+                   ----->> selected object deleted successfully and returns status code as "204 No content"
+
+
+step5  :   DELETE ---->>> http://127.0.0.1:7766/api/emp_viewset/70/
+	Select "Authorization" ----->>> select Type  as  "Basic Auth" ------>> Provide Username and Password 
+	click on  "send" button.
+	---->>> Then you will get  "404 Not Found" ......  {'detail' : 'not found'}
+
+
+

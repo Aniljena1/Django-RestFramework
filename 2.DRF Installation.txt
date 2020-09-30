@@ -1,0 +1,346 @@
+Programming steps :-
+==========     =====
+Step1 :   Project Name     :  First_Name
+Step2 :   Application Name :  First_App
+
+step4 : Add the Application name inside INSTALLED_APPS  section
+  
+                INSTALLED_APPS = [
+                     -----   -------,
+ 	             -----    ------,
+	             'First_App',  # add this one
+                ]
+
+
+
+Step5 :  Configure the Database Details under the Database Section
+	 DATABASES = {
+             'default': {
+                   'ENGINE': 'django.db.backends.mysql',
+                   'NAME': 'first_db',
+                   'USER' : 'root',
+                   'PASSWORD' : 'root',
+             }
+        }
+
+
+Step6 :   Open views.py file , Create a Function based view 
+  
+           1)  create the definition by using  "def"
+           2) Cretae the one python Dictionary obj for static data.
+
+           3)  Convert this python Dictionary data into String Response
+
+           4) Provide This string response data to HttpResponse() method
+
+           5) I need to import HttpResponse() as ,
+		  from django.http import HttpResponse
+           6) Create one response variable like  resp    =====>> like string 
+
+           7) return resp variable into HttpResponse() ----->> 
+
+
+
+Step7 : Open urls.py file , create this urls.
+             1) import your views here
+             2) create one url for your views calling purpose ---->> 
+                     url(r'^empdata/', views.emp_data_view)
+
+step8 :  Runserver
+step9 : send request as  ----->>      http://127.0.0.1:8000/empdata/
+         9.1  :   convert this output as Html format
+         9.2  :  devide this data as line by line 
+
+
+Note :   when ever we are sending the request from the browser as HttpRequest object , Server  application will send back HttpResponse object in the form of HTML response format.
+          
+ Allways browser displays HTML format data only by default.
+        
+ If you want to display another type data then we use the MIME type attribute.
+
+         Browser can esily understand Html Response.So that End User can easily read the data.
+       
+         But It has a drawback   If my Django application will communicate by some Java application.
+
+
+  For example , 
+
+	Java appln   ----------------------------------------------->> Django appln
+    	                          (not human)
+	Android appln  ----------------------------------------- >> Django appln
+
+
+----> Here my java appln will send the HttpRequest , then my Django appln will send the Html response  to back (java appln) , then my java appln will not understand this Html response directly.
+
+
+----->> same way my Android appln also will not understand the html response
+
+----->> That's why in our REST API  we develope the code as   our response should be any software         applications can   abele to understand easily irrespective of languages or platforms.-----> 
+
+---->> For that which concept is required  is : JSON
+
+
+
+
+=================       ======================      =====================
+
+Now Create one more FBV , for sending JSON response only but not html response.
+
+1 : define one view using FBV
+2: create one python Dict data
+3:  Converting the python Dict data into Json data by using dumps() of "json" module
+4:  assigning the data into one variable --->> resp
+5: return that variable by using HttpResponse() along with "content_type" attribute .
+
+
+Note :Here ,we need to discuss about dumps() & loads().Both are from "json" built-in module of Python. 
+=====
+  figure       :  Dict data   -------- to----->JSON data   ------>>> use  dumps()
+	          JSON data ------- ---to ----> Dict data  ------->>>> use loads()           
+
+dumps() : To convert python dictionary object data into json data ,we required to use =======            dumps() function 
+
+
+loads()  :To convert Json data into python dictionary object data ,then we use loads() of json module
+=======
+
+Here , python dict and Json both are different languages, so they will not understand the data directly.
+so compulsary  conversions are required . For that we go for dumps() & loads()
+
+Here both value formats are key-value only , but not understanding to each other.
+
+
+example :
+
+NOTE :  
+=====
+default content_type is 'html/text' , thats why we are explicitly defining this "content_type" as 'application/json'.
+
+Then that view returns ------->>> Json response
+
+Html response is only Human understandable format. But Json response is both Human and Machine understandable format also. Here Machine means Another Software application.
+
+
+
+=====================
+
+one more way is there to send "json --- response" directly by using JsonResponse()
+ 
+Steps :  
+-----
+1)  import the JsonResponse() from django.http module
+2) define one FBV
+3) Create one Python Dict data.
+4) send that python Dict data directly into JsonResponse()
+5) Finally this method converts this Python Dict data in the form of JSON data And returns on browser also.
+
+
+	from django.http import JsonResponse
+	def empdata_view_json(request):
+		emp_data = {
+			'eno':
+			'ename' :
+			'esal':
+			'eaddr':
+		}
+		return JsonResponse(emp_data)
+
+note : Most of the people may use Python json way techniique only. why because json is python built_in        module.So no defendencies problems will come.
+
+
+
+
+
+
+
+
+
+
+
+Class Based View:-
+=============
+We have TWO types of ways for developing the Views.
+	1) By using Function Based Views 
+	2) By using Class Based Views
+
+
+Till now we are developing the Function Based Views (FBV) only.
+
+Now we are going to discuss about only Class Based Views (CBV).
+
+Every CBV is the Child class of "View" class.
+
+This View class present in django.views.generic module.
+
+If you want to create CBV then compulsary your class is Child class of View class.
+
+       class ClassName(View):
+               pass
+
+
+
+Differences between FBV & CBV :-
+==========     ===   **********
+If you are using FBV , if you want to send the GET request then one functionality you have to do.
+if you want to send the POST request then another functionality you have to do. 
+
+
+for example ,  
+
+if request.method == "GET" :
+	< do this GET activity >
+ 
+elif request.method == POST:
+	< do this POST activity >
+
+
+
+Here  we have to check which request is comming from partner application or from the browser like GET or POST.
+
+
+
+This type of headach is there in FBV . But in CBV there is no such type of problems.
+
+
+The CBVs are very cute and easy to developing the code. CBV are providing the "Code-Reusability".
+for example,
+    if we developing the views by using CBV then we  "re-use"  these views into another class also 
+    by importing the Class's
+
+
+In CBV , if request is GET then get() is executed. If request is POST then post() is executed.
+so here the curresponding method only will be excuted directly.
+
+example;
+class ClassName(View):
+	def get(self , request):
+		<.... do this activity ... >
+
+	def post(self , request):
+		<.... do this activity ... >
+
+In CBV , we no need to check method is coming from partner.
+
+
+CBV url's are calling the views as  views.viewName.as_view(). 
+but FBV url's are calling the views as views.viewName only.
+
+
+So most of the people preper the CBV only in real time.In REST API , compulsary we use CBV only.
+
+
+Example program:
+
+from djano.http import JsonResponse
+from django.views.generic import View
+
+class JsonView(View):
+	def get(self , request ):
+		emp_data = {
+			'eno' : 100, 
+			'ename' : 'Smith' ,
+			'esal' : 20000,
+			'eaddr' : 'Hyd',
+		}
+		return JsonResponse(emp_data)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Serialization
+==========
+Converting the object from one form into another form is called Serialization.
+
+The process of converting the QuerySets or Database instances into python native datatypes (Dict)
+and then converted into Json data type is called as "Serialization".
+
+
+
+
+Q) How many ways we will perform serialization ?
+===============  ============    =============
+
+Three ways are available ,
+     1) By using python in-built module  "json" .
+              json.dumps(data)
+
+     2) By using django's serialize() function.
+              from django.core.serializers import serialize --->> method.
+ 
+     3) By using rest_framework serializers  module
+               from   rest_framework   import   serializers 
+
+
+
+
+
+
+
+Installation of DRF :
+==========  ===
+
+cmd > pip install django
+
+cmd >  pip install djangorestframework==3.8
+
+
+Add  "rest_framework" app inside INSTALLED_APPS section. 
+       ===========
+
+INSTALLED_APPS = [
+        ......,
+        ...... ,
+        'appName',
+        'rest_framework',  # add this one in every Project
+	
+]
+
+
+from rest_framework import required_modules
+
+
+
+
+  DRF --->>   Serializers 
+        ===========
+Serializers are used to convert the querysets and model instances into native Python datatypes(Dict)
+and then it can be easily rendered into JSON data type. this process is called serialization.
+
+
+Serializers also provide deserialization which allows JSON data into complex or native datatypes(dict)
+and  then it can be converted into querysets and models instances.
+
+
+
+API accepts a user input–for example submitting a new data –which is translated from HTML into JSON then converted into our Django model.
+
+
+The serializers in REST framework work very similarly to Django's  "Form" and "ModelForm" classes.
+
+We provide a "Serializer" class which gives you a powerful, generic way to control the output of your responses, as well as a "ModelSerializer" class which provides a useful shortcut for creating  serializers that deal with model instances and querysets.
+
+A traditional Django app needs a dedicated url, view, and template to translate information
+ from that database onto a webpage. 
+
+In DRF we need a url, view, and a serializer. But not Template
+
+The url controls access to the API endpoints,
+
+views control the logic of the data being sent, and
+
+the serializer performs the magic of converting our information into a format suitable for  transmission over the internet, like JSON.
+
+
+A normal webpage requires HTML, CSS, and JavaScript (usually). But our API is only sending data in the  JSON format, so No HTML and No CSS, Just we need only data.
+

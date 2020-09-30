@@ -1,0 +1,48 @@
+
+How to use dumpdata Option: 
+=========  ========  ======
+We can dump our database data either to the console or to the file by using dumpdata option. 
+
+This option provides support for json and xml formats. 
+
+The default format is json. We can write this data to files also. 
+
+
+
+Getting data from database directly with out opening the mysql command prompt.
+=======      ===============          =========             =============
+
+Open our required existing project location with pycharm terminal and executing the 
+bellow commands for loading our required database data into a specific files.
+
+Example:
+--------
+
+D:\8AM_Batch_Restapi\APIView_Project> 
+
+
+          
+1) python manage.py dumpdata testapp.Employee 
+           Print data to the console in json format without identation
+
+
+ 2) py manage.py dumpdata testapp.Employee --indent 4               
+           Print data to the console in json format with identation 
+
+
+3) py manage.py dumpdata testapp.Employee >emp.json --indent 4               
+             Write data to emp.json file instead of displaying to the console 
+
+
+4) py manage.py dumpdata testapp.Employee --format json > emp.json --indent 4 
+               We are specifying format as json explicitly 
+
+
+5) py manage.py dumpdata testapp.Employee --format xml  --indent 4
+               Print data to the console in xml format with identation
+
+
+ 6) py manage.py dumpdata testapp.Employee --format xml > emp.xml --indent 4
+              Write data to emp.xml file instead of displaying to the console 
+
+

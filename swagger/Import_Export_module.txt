@@ -1,0 +1,146 @@
+
+      Django dumpdata and loaddata
+     ============= =  ==========
+
+dumpdata command
+----------------
+It is a django management command, which can be use to backup(export) you model instances or whole database
+
+dumpdata for basic database dump
+------      ===================
+Following command will dump whole database in to a db.json file
+
+cmd >  python manage.py dumpdata > db.json
+
+
+
+dumpdata for backup specific app
+========   ===========     ==========
+
+Following command will dump the content in django admin app into admin.json file
+
+
+ cmd>  python manage.py dumpdata admin > admin.json
+
+
+
+
+dumpdata for backup specific table
+=============    =================
+
+Following command will dump the content in django auth.user table
+
+cmd > python manage.py dumpdata auth.user > user.json
+
+cmd > python manage.py dumpdata Static_Media_App.Student > Student.json
+
+
+
+
+dumpdata (--exclude)
+=================
+
+You can use --exclude option to specify apps/tables which don't need being dumped 
+Following command will dump the whole database with out including  auth.permission table content
+
+cmd> python manage.py dumpdata --exclude auth.permission > db.json
+
+
+
+
+
+dumpdata (--indent)
+======== ==========
+By default, dumpdata will output all data on a single line. 
+
+It isn’t easy for humans to read. You can use the --indent option to pretty-print the output with a number of indentation spaces.
+
+
+cmd> python manage.py dumpdata auth.user --indent 2 > user.json
+
+
+Example output of above command is below
+
+[
+  {
+    "model": "auth.user",
+    "pk": 1,
+    "fields": {
+      "password": "pbkdf2_sha256$100000$L2g41Lt981p7$VFzupQgnTkoazLHTX7fKbVAyGzbYp4Ywmycmr7FlcZc=",
+      "last_login": "2020-03-08T09:52:30Z",
+      "is_superuser": true,
+      "username": "Srinivas",
+      "first_name": "",
+      "last_name": "",
+      "email": "",
+      "is_staff": true,
+      "is_active": true,
+      "date_joined": "2020-03-08T09:51:59Z",
+      "groups": [],
+      "user_permissions": []
+    }
+  }
+]
+
+
+
+
+
+loaddata command
+****************
+
+This command can be use to load the fixtures(database dumps) into database
+
+
+cmd > python manage.py loaddata user.json
+
+This command will add the user.json file content into the database
+
+
+
+
+
+
+Restore fresh database
+=======   =============
+
+When you backup whole database by using dumpdata command, it will backup all the database tables .
+
+If you use this database dump to load the fresh database(in another django project), it can be causes IntegrityError (If you loaddata in same database it works fine).
+
+ To fix this problem, make sure to backup the database by excluding contenttypes and auth.permissions tables
+
+cmd > python manage.py dumpdata --exclude auth.permission --exclude contenttypes >       db.json
+
+Now you can use loaddata command with a fresh database
+
+cmd > python manage.py loaddata db.json
+
+
+
+
+
+
+Django import / export
+=============
+django-import-export is a library for importing and exporting data with included admin integration.
+
+Features:
+
+support multiple formats (Excel, CSV, JSON, … and everything else that tablib supports)
+
+--->> admin integration for importing
+--->> preview import changes
+--->> admin integration for exporting
+--->> export data respecting admin filters
+
+
+
+tablib
+======
+pip install tablib[all]
+
+django-tablib is a helper library for Django that allows Django models to be used to generate tablib datasets with introspection of the fields on the models if no headers are provided. 
+
+If headers are provided they can reference any attribute, fields, properties, or methods on the model.
+

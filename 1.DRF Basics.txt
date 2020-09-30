@@ -1,0 +1,284 @@
+ 
+
+DRF -----> Django REST Framework
+====     	==================
+What are the Pre-requisites to learn DRF ?
+	1) Python
+	2) Django
+
+Django REST Framework :
+=====  =====  =========
+DRF is a 3rd aprty f/w. Not developed by django people.
+
+DRF is builting on top of Django framework only.
+
+So it is an extension of Django only. It provides some extra Concepts or modules or classes or functions.
+
+By using of these modules or classes it provides ready-made code insted of developers.
+
+So that DRF is getting  more popularity in now a days.
+
+DRF provides so many modules  to develop the RESTful API's very easily.
+
+REST is a language independent , so we use it in Java , .Net , Python and so on.....
+
+
+
+Q ) Why we should learn REST API ? What is the Importance of REST API ?
+       =======   ======       ========         ======     =======          =========
+       Rest API provides so many advntages automatically. It reduces the lot of burden on Developer or Programer. 
+       
+       It decreasing the more lines of code by using ready-made modules or classes.
+       
+       Thats why people are learning now a days REST API more and more.
+
+
+Advantages 0f RESTAPI :--
+=========  ==========
+----->>> Browsable API.
+
+----->>> No need of Templates.
+
+----->>> writting  less lines of code.
+
+----->>> Built-in modules ,classes are available.
+
+----->>> In-built Serializers support.
+
+----->>> Built-In Security (Token Authentication). 
+
+----->>> Extensive Documentation.
+
+------>>> Without DB opening , we can conform the data state.
+
+
+
+Some main common words or concepts that are using in DRF .
+======       ========   =====    =======     ========    ======
+1 ) API 
+2) Web API  /  Web Services
+3) REST
+4) REST API  / RESTful Web Services
+5) Django REST Framework
+
+
+1) API : 
+=====
+API ---------->>  Application Programming Interface
+
+If we want to access the functionality of one application from another application or
+from the End user then we need one Interface , That interface is called as API.
+
+If it is Software application , then we use API for communication purpose.
+
+If it is normal end user , then we use GUI for communication purpose.
+
+So by using API   TWO different kind of applications will communicate to each other
+ 
+for exchanging the Data between them.
+
+RESTful APIs --> the api which is devloped by implementing rest architecture these these things are called as restful apis.
+
+
+2) Web API  /  Web Services :
+=========     =========== ==
+
+The API which is developed to access the web applications , such type of API is called as Web API.
+
+Web API's are also called as Web Services.
+Web Service is a service which is provided over the web by some web applications.
+
+Web API concept is applicable for web applications.
+so by using the Web API , we can access services of web applications.
+
+For Example:
+
+REST :
+=====
+REST stands for Representational State Transfer .
+
+REST is an architectural style for building the Web API's.  So REST defines several guidlines 
+to develop the web api's very easily with less timely.
+
+REST API :
+=======
+The API's which are developed by using the REST principles or guidlines are called as REST API's.
+REST API's are using the HTTP protocols.
+
+REST API's are also called as RESTful api's or RESTful web services.
+
+
+
+How many types of Web Services are there ?
+----------------    ----------------  ----
+Two types are there
+	1) SOAP based Web Services
+	2) RESTful Web Services
+
+SOAP : 
+====
+SOAP -------->>> Simple Object Access protocal	
+
+1 ) SOAP is always used XML based data
+2) Biggest problem of XML is Heavy Weight
+  
+ syntax:   <root>
+ 	       <child1>Data</child1>
+	       <child2>More Data</child2>
+          </root>
+
+
+3) Heavy Band width needed
+
+    For example , if any data is transfered from provider application to consumer application , then Heavy Band width data is required.
+
+
+4) Parsing the XML data is take more time. so it is not efficience.
+    
+   Note :  Parsing means reading the data from XML object types to Another object types.
+
+5) Low performance
+
+6) Implementing the SOAP bassed Web API's are more complexing 
+
+7) Development time  and  Cost of the Project  is increasing 
+
+so because of these common problems , the people are not using the SOAP based Web Services.
+
+
+Addvantages :
+=========
+1) SOAP supports multiple types of protocols. for example ,  HTTP , SMTP,  FTP etc
+
+2) WSDL uses
+      If we want to send the data from one apllication to another application , we need one special language called as WSDL .
+      
+     WSDL ------->Web Service Description Language. Due to this WSDL , data has more secured when transfering between two applications over the net works. 
+
+3) No limit on size of the data.
+
+
+
+RESTful Web Services :
+=======    ==========
+REST ------> Representational State Transfer , where each URL is Representation of an object.
+
+By using HTTP verbs/protocols , we can perform operations related to that object. 
+for example , GET  ,  POST  , PUT ,  DELETE
+
+Advantages :
+=========
+1) RESTful Web Services  are using  "JSON" type based data.
+
+2) JSON is a  "Light weight" component .
+
+3) So when transfering of json data over networks is required  "less Band width".
+
+4) No WSDL language required means we can expose directly our json data over networks by using URLs.
+
+5) High performance 
+
+6) Easy development 
+
+7) Human understandable message format like plain Text (looks like Python Dictionry)
+
+Drawbacks :
+=======
+1 ) Less secured to data  
+
+2) It supports only HTTP protocal , no SMTP  ,  no FTP
+
+3 ) Limited amount of data is transfering.
+
+
+
+Q) Purpose of the HTTP methods ?
+      ============    ===== ======
+
+GET         --------->> To get one /more resources.
+POST        --------->> To create a new resource
+PUT         --------->> To update a perticular resource 
+DELETE      -------->>  To delete a  perticular resource.
+PATCH       --------->> To partially updates the perticular resource. 
+                        (means , one or two fileds.)
+
+ 
+Q) As a programming developer how do you communicate with Database ?
+              HTTP  methods
+
+Q) As a database developer how do you communicate with Database ?
+	CURD  commands
+
+
+Web Service Provider :
+=====  ====  =======
+The application which is providing web services is called Web Service Provider.
+
+Web Service Consumer :
+=====  ====  ========
+The application which is consuming web services is called Web Service Consumer.
+
+
+for example ,
+       BookMyShow Application      <<=================>> PaymentGateWay Application
+                  consumer					Provider
+
+why because here BookMyShow app uses the services of PaymentGateWay  app for doing their activitis.
+
+
+
+       
+Relation between Database CRUD operations and HTTP methods
+=========      ===========     =====   =======       ============
+C      -------->  Create                 --------> POST
+R      -------->   Retrieve / Read       --------> GET
+U      -------->  Update                 ------- > PUT 
+D      -------->  Delete                 --------> DELETE
+
+
+
+                                                  BY Raju Sir
+                                                 -------------
+
+
+
+web service
+============
+-> web service is a way of comunication or a technology.
+-> web service allows us to build interoperable distributed application.
+
+Interoperability means?
+========================
+-> Interoperability means language independent and platform independent.
+
+What is different between a web application and web service?
+=============================================================
+-> A web application is a server side application which are provied the service directley to enduser(customer).
+
+-> A webservice is also server side application which provides it's services to another application but not to end user directley.
+
+WebServices
+===========
+           A Web Services also allows a program to expose objects over the network,WebServices are given by the open community organization,
+ called WS-1,stands for WebServices Interoperability organisation.
+
+Types of WebServices:
+======================
+ There are two types of web services
+1. SOAP based web services/Big Web Services
+2. RESTful Webservices
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

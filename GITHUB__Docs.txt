@@ -1,0 +1,284 @@
+
+What is GitHub?
+=====    ======
+GitHub is a code hosting platform for version control and collaboration(co-operative). 
+It lets you and others work together on projects from anywhere.
+
+Git is a Dstributed version control system.
+
+
+Is Git distributed version control system?
+========= ==============    ===========
+
+Git is a free, open source distributed version control system tool designed to handle everything from small to very large projects with speed and efficiency. 
+
+It was created by Linus Torvalds in 2005 to develop Linux Kernel.
+
+
+
+
+The Project repositery is mainted in the server and also maintened at
+ developer systems.
+
+
+Each developer systems must contain a git software and github is a server
+ which mainttaince server side repositery of a project.
+
+
+Install git software from  https://git-scm.com/downloads
+
+
+An exe file is downloaded, install git by double click on that exe file.
+
+
+The Admin who starts and maintaines the project and the developers who are 
+going to work on that project both must be contain Github accounts.
+
+
+
+Admin steps :
+===  ======
+Admin is the initiator of Project.
+
+Admin has to Create a new Project and he should make it this project in a Git Repository and can share this project on Github.
+
+
+
+
+
+
+
+
+
+Programming Steps by Using PyCharm:
+=========  ======
+Step1:-
+=====
+Create a new Djando project in Pycharm.
+
+Goto File menu ---->> Click on Settings ---->> Click on "Version Control"
+---->> Click on "Git" ---->> click on "Test".
+
+Step2:-
+=====
+This step will Check "Git" software is installed in the  system or not.
+
+git location :
+---- ------
+C:\Programs Files\Git\cmd\git.exe
+
+
+Step4:-   Select a directory where a new Git Repository will be created.
+=====     -----------------------------                     ------------
+Click on "VCS" menu on Top headerbar ---->>> click on "import into version
+control" ---->>> click on "Create Git repository" --->> click on "Ok".
+
+Step5:- 
+=====
+Click on "VCS" menu on Top headerbar --->>> click on "import into version
+control" ---->>> click on "Share Project on Github".
+Then we willl get a window like
+
+
+Repository Name :  Your Repo name you are getting
+Remote                   : origin
+Description            :  write Some description here about your Repo
+
+
+Click on "Share" button ---->> you will get all available files with checked marks in that repo for Adding files.
+
+click on "Add" button----->> Then you will get reloading process like "pushing to github".
+
+Finally we got message like "Successfully shared project on Github"---->> our project name.
+
+
+step 6 : -     Open the browser and refresh it. then we will get the our First_Project on ======         github locations.
+     
+    ex :   https://github.com/srinivasrao452/First_Project
+
+
+
+step 7 :  If you want add the README  file click on   "ADD README" file button.
+
+               ex :   First_Project / README.md         or cancel
+
+--->> click on "commit new file" location for saving this file.
+ 
+---->> before if you want  change the branch name, then create new branch. otherwise             default  "master"   branch only created.
+
+
+
+
+How to import projects from Github into Pycharm :-
+=============  ======  =====  ***** ===  *******
+
+Step1:-
+=====
+Click on "VCS" menu on Top headerbar --->>> click on "Check out from Version control" 
+--->>> click on "Github" --->>> Now it is accessing of Github account.
+
+--->>> Here we will get one Textbox with Dropdown menu.
+       Git Repository URL : Past clone URL here ---->>> click on "TEST" button.---->> you        will get "Connection Ok"
+
+--->>> So here we will give the github url from our Github accounts.
+       Goto your Github accounts on broweser--->> Goto Projects Repository
+      folder. Select your projects --->>> click on "Clone or Download" 
+      option---->>> Then we will get a URL--->>> Copy that URL --->>>
+       Past it in  "Git Repository URL" dropdown menu above.
+      ---->>> click on "Test" button -->> here your URL is Tested sometimes.
+       --->>> finally we are getting "successfully" msg --->> ok.
+
+---->> get a window like , whould you like to open the directory --->>
+       click on "Yes" button.
+
+--->>> Open a pycharm of our project ---->>> Right now we are getting only 
+       "README.md" file only.
+
+
+
+How to Pull :
+=========
+click on VCS --->> click on Git---> click on "pull" command --->> open one window like
+Git Root   :  location
+Current Branch  :   master
+Remote :    origin
+Branchs to Merge  :  origin/master
+-->> click on "pull" button again.   --->> successfully you will get updatings.
+
+How to Pushing:
+======     =====
+VCS ---->> Git ---->click on "ADD" .
+
+VCS ---->> Git ----->> click on "COMMIT" file---->>> will get window like changes files ---->> click again "commit" button.----->> get info like 1 file commited. 
+
+VCS ---->>> Git --->> Push--->> get window like with updated files --->> click push button
+
+
+NOTE :
+=====
+
+If you want to upload your files then we need to do some procedure
+like "Commit" files , and "PUSH" command. 
+
+If you want to import your files then we need to do some procedure 
+like "PULL" command. 
+ 
+==============   Using Pycharm ========    =============
+
+
+
+
+
+
+
+
+Command Prompt commands 
+======  =====  =======
+
+Stpe1: -  
+=====
+cmd > git init
+ 
+      It initialises the git account details.
+
+cmd > git clone URL_of_Repo.git
+  
+          copy the url of git repository from server side and  past it in client side. then it brings your Repository in to           local system .
+
+cmd > cd folder_name
+
+      Change the current Repository  folder location.
+
+
+for copy/add/modify the files purpose ,
+     ==== === =====
+
+cmd > git add  .
+
+      It adds all files which are available in current folder.
+
+
+cmd > git commit -m  First_commit 
+
+      Here we are going to write one String message for representing
+      the comments what we did presently.
+
+
+cmd > git push -u origin master
+
+       it uploads your latest code into Github server.
+
+cmd > git pull
+
+     it imports your latest code from Github server into your local system.
+
+
+cmd > git remote add origin Url
+
+      It creates the new Git Repository name on Github account. One URl we are 
+      sending like  git remote add origin "https:/....../srinivasrao452/MyProject"
+
+
+
+
+
+========================
+
+About Repository
+=======    ========
+A repository is usually used to organize a single project. 
+
+Repositories can contain folders and files, images, and data sets – anything your project needs.
+
+We recommend including a README, or a file with information about your project. 
+GitHub makes it easy to add one at the same time you create your new repository.
+
+
+
+To create a new repository
+========    ============
+In the upper right corner, next to your avatar, click  and then select New repository.
+
+Name your repository  "hello-world".
+
+Write a short description for Your Repo.
+
+Select Initialize this repository with a README.
+
+
+Create a Branch
+=====     =======
+Branching is the way to work on different versions of a repository at one time.
+
+By default your repository has one branch named "master" which is considered to be the definitive branch. We use branches to experiment and make edits before committing them to master.
+
+When you create a branch off the master branch, you’re making a copy, or snapshot, of master as it was at that point in time. If someone else made changes to the master branch while you were working on your branch, you could pull in those updates.
+
+
+
+To create a new branch
+=======    =========
+Go to your new repository hello-world.
+Click the drop down at the top of the file list that says branch: master.
+Type a branch name, readme-edits, into the new branch text box.
+Select the blue Create branch box or hit “Enter” on your keyboard.
+
+
+Make and commit changes
+======    =============
+Click the README.md file.
+Click the  pencil icon in the upper right corner of the file view to edit.
+In the editor, write a bit about yourself.
+Write a commit message that describes your changes.
+Click Commit changes button.
+
+
+ Merge your Pull Request
+=======    ==========
+In this final step, it’s time to bring your changes together – merging your readme-edits branch into the master branch.
+
+Click the green Merge pull request button to merge the changes into master.
+Click Confirm merge.
+Go ahead and delete the branch, since its changes have been incorporated, with the Delete branch button in the purple box.
+
+

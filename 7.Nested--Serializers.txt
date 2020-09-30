@@ -1,0 +1,150 @@
+
+
+Nested Serializers
+=====  =========
+Q )  Why we should go for Nested Serializers concept  ?
+There are 5 different referentil actions:
+1.CASCADE - If the parent record is deleted,any child record also deleted
+2.RESTRICT - it is prohibited to delete a row of the referenced table if that row has any matching rows in the refference table
+3.NO ACTION - no action is same as RESTRICT
+4.SET NULL - if a row of the refereced table is deleted,then all matching rows in the referencing are deleted
+5.SET DEFAULT - if a row of the refereced table is deleted,then all referencing columns in all rows of the refference
+                table to be set to the columns default value
+ 
+
+Q ) If we are deleting one Author object  then automatically respective book obj also deleted , Why ?
+                 means we are using    ---->>>   on_delete = CASCADE   value.
+
+Q )When ever you are sending the request to  db then are you getting JSON data response ? 
+
+Q ) Who is doing that One ? ------>> Serializers.
+
+
+Some times we can use one Serializer inside another Serializer is called as Nested Serializer.
+
+I have 2 model classes they are like "Author" and "Book"  ---->>> so "AuthorSerializer" and "BookSerializer" also we have.
+
+For Author ---->> we have fields  like  first_name , last_name , subject 
+For Book  ---->> we have fields  like   title ,  author  , release_date  ,  rating of this book.
+
+"Book" model  contains "author" field this is a   "ForeignKey " of "Author"  model.
+
+
+
+To get all authors information in a list :
+======= = = ===== =  ======= ======
+when ever we are sending the request to authors information then compulsary  this "Author" written books information also I want to display.
+
+Note:-->>
+======
+For this  in  "AuthorSerializer"  internally  we use "BookSerializer" , This is nothing but Nested Serializer.
+
+When ever model relation ship topic you are using then Nested Serializer topic is very usefull
+
+Now here How many models are there ,  2  ---->> Author and  Book 
+With out Author  ---->>> no  Books  are  available. because "Book"  having  "ForeignKey"  reference to "Author". 
+
+So if I use Book & Author model, which one is Primary table  ,  which one is dependent table   ? ---->> Author.
+
+Extra information is provided by Books , it depends on Author .
+
+In Book , one field "author" is there , it associates with "Author" table.
+
+
+Stepe1 :-  Project Name  :  Nested_Serializer_Project
+Stepe2 :-       App Name  :  Nested_Serializer_App
+Stepe1 :-         DB  Name  :  Nested_Serializer_db
+Step3 :-  Open models.py 
+
+       class Author()
+
+	class Book()
+
+Here "author" is not a new field or Author.  It is  already available Author information getting. So this field is associates with Author table.
+
+**  In Author table , if you are deleting or removing any Author record then corresponding books also deleted       automatically.
+
+** This is possible by using    "on_delete = models.CASCADE"  value and   "related_name = "books_by_author".
+
+Here Author object is cretaed  so  authObject.first_name , authObject.last_name , authObject.subject , then we are going to get Author related data only.
+
+Q ) I want to know this Author related Books information also. How it is possible ?
+                  authObject.books_by_author  ----- >>> we will get data.
+on authObject  if you are using  "books_by_author"  field  then we are getting books information of that Author.
+
+Q ) Which model is depending on which model ?
+        here  Book model is depending on Author.
+
+Step :-   Write code for admin.py
+Step : - serializers.py --- create both classes
+
+Q )  Am I using any Nested Serializers here. ? --->>No
+Q ) With out nesting what is the problem ? With nesting what is Happening?
+
+
+Step :-  open views.py 
+             class AuthorListView(generics.)
+
+            class AuthorDetailView(generics.)
+
+           class BookListView(generics.)
+
+           class BookDetailView(generics.)
+
+
+Step  :   project urls.py
+  
+Note :
+====
+Every author associated with some books , because Book model having Foreign Key  refernce to Author model.
+
+**  If you are sending the request like author info  then we are going to get only Author information  But not Books   information.
+
+Q ) When ever we are sending the request , I want all Authors info including the Books info also at a time ?
+ Q ) What I need to do ?
+          
+
+Nested Serializers
+=====  =========
+For that , What I have to do is inside AuthorSerializers, I want to provide Book information also.
+
+To provide book information , BookSerializers must be required. Thats why  what  I have to take is , "related_name"  field value here.
+
+-------->>>>>>    books_by_auther = BookSerializer( read_only=True ,  many=True )
+
+here , it is called Nested serializers, here multiple parameters are required.
+
+read_only = True    ---->> means if you are going to print books information that information  you cant modify.
+
+Every Author is associated  with books (means may be many books). Thats why  many=True we provided.
+
+
+** When ever a person is asking about a author serializers , we can provide author information.
+In addtion to author info , books info also must be required.
+
+If you want to provide that information then BookSerializer we use inside AuthorSerializer class. 
+This is nothing but NestedSerializers.
+
+** So if anywhere mapping concepts like model mappings example , One-To-One ,  Many-To-Many  , Many-To-One...
+If you have such type relations then compulsary we should go for " Nested Serializers".
+
+NOTE :    After AuthorSerializer if you define BookSerializer then you will get exception like ,
+=====         NameError : name 'BookSerializer' is not defined.
+so order is imfortant ----->>   'BookSerializer'  then  AuthorSerializer 
+
+Execution:
+========
+ I want all authors information including the books info.  " http://127.0.0.1:8000/author-api/ " 
+So here in addition to Author info   ,   Books info also we are going to  sending Partner application. 
+
+Q )  Why we should go for Nested Serializers concept  ?
+Q ) If we are deleting one Author object  then automatically respective book obj also deleted , Why ?
+                 means we are using    ---->>>   on_delete = CASCADE   value.
+Q ) When ever you are sending the request to  db  then are you getting JSON data response ? 
+Q ) Who is doing that One ? ------>> Serializers.
+
+
+
+
+Here we are providing Primary_key as  id and  this one as Foreign_Key in books.
+If we provide Primary_Key as  first_name  then  name value we are getting books info.

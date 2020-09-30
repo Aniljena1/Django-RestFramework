@@ -1,0 +1,106 @@
+Q) How to TWO different kind of applications will Communicte to each other ????
+
+ figuure :       
+    Partner appln ------->> http req------>>>>Django appln
+    Partner appln  <<<------json resp-------Django appln
+             |
+             |
+        Java or Python applns
+
+Here My partner application will send the http request to my Django application,. Then My partner application will get back response as Json format.
+
+so, here My partner application is Python application , and provider is Django application. So both are different applications. So they don't understand the json data directly.
+
+here json data return by Django  and using  by the Python.
+
+
+
+Q) What is the way for communication ? How we can do that ?
+
+
+----->> For that you need to take one Scripts file for python code.
+----->> We can take the Script  file at Any locations you want. 
+
+for example ---->> Project level or  at some other drive locations.
+
+
+----->> create one file as "test.py" under project level.
+
+Steps  to sending request from Partner to Provider :
+======       ===========          ===============
+1) from Partner application i will send http requuest.
+2) json data i will get back into python.
+3) Now I will convert this json data into Dict data type by using  ---->>> json()
+4) Now  I can use that Dict data in my  Python.
+             
+
+Note :-->> For sending the http request from Python application , we need one  special module called as  "requests".
+	so we need to install it by using pip command
+
+	cmd > pip install requests
+
+
+
+so now , we will send http requests from python application. 
+Inside Script file i.e, test.py , we need these steps.
+
+
+
+Steps to Partner Code :
+=====    =============
+1) import requests module
+	import requests
+
+2) if you want to send the get requests , then we do first as
+     2.1 ) create one BASE_URL  
+	BASE_URL  = 'http://127.0.0.1:8000/'
+		 
+     2.2) cretate one ENDPOINT url
+	ENDPOINT  = 'empdata/'
+
+3) Merging the both URLS like  
+            FINAL_URL =  BASE_URL  + ENDPOINT
+          
+4) Now I have to send this  url to request module methods like get,post...
+	 requests.get(  FINAL_URL  )
+
+5) Now I will get some response back  and  assigns this rsponse in to one veriable .
+	resp = requests.get(  FINAL_URL  )
+
+
+Q) What response I will get in resp variable ?
+  
+6) variable "resp" contains Json data only.
+
+7) By using  .json() , we will converting this json data into python dict type.
+          ex :   resp.json()    ------>>> no need of loads() here.It works in django.
+
+
+
+8) print this one, then you will get output.
+
+
+Q) Now with us how many application are there ? 
+        two ,  1 ) python  2)  django
+
+
+Execution process:
+=======    ======
+now for executing the python application ---->> go to command prompt ----->> goto your script file location.
+that is  test.py file location.
+
+cmd- with python file location >  python partner.py ---->>enter
+
+you will get out put as 
+
+{  'eno' : 100 , 'ename' : 'Ramu' , 'esal' : 1000 , 'eaddr' : 'Hyd' }
+
+
+
+Q) Who provided this response ?
+	Django will provided this response to the python application.
+
+
+----->> After calling the json() with resp variable then the type is Dictionary.
+------>> otherwise it has http response only
+

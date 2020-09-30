@@ -1,0 +1,195 @@
+
+Mapping the Project level url to application level url    (CBV)
+==================   ====================  ===========
+
+Class Based view provide an alternative way to implement views as python objects insted of using Function based views.
+
+
+They do not replace the FBVs, But have certain differences and advantages when compared to function based views.
+
+In CBVs we can inherit the one class from another class.
+
+A View is callable which takes request and gives response.
+
+django provides some classes which can be used as views.
+
+
+These classes allow us to structure our views and reuse code by implementing inheritance between the classes.
+
+ex :   from  django.views import generic
+
+        class ClassName(generic.ListView) 
+
+         generic.CreateView  
+
+         generic.DeleteView
+         
+         generic.UpdateView        
+
+         generic.DetailView
+
+
+
+ListView:
+--------
+we can use ListView class to list out(getting) all records from database table(model)
+
+
+It is alternative way to    ModelClassName.objects.all() in Function Based Views.
+
+
+HOW to create template file for ListView:
+----------------------------------------
+
+----->>> Django will identify template name automatically and we are not required          to configure anywhere.
+
+--->> But Django will always search for template file with the name as
+   
+    syntax  :    modelclassname_list.html    
+
+    example :  contact_list.html
+
+
+---->>> django will always search for template file in the following location.
+
+   syntaxt :  templates/appName/modelclassname_list.html  
+
+   Example : templates/appName/contact_list.html
+
+
+
+NOTE:   Default  CONTEXT OBJECT NAME
+----   =======  ==============
+by default django will provide context object to the template file with the name: 
+     
+      syntax: modelclassname_list    
+      
+      Example :  contact_list
+
+
+
+
+DetailView
+=======
+ template_name --->>  modelname_detail.html
+
+ context_object_name ---->> modelname  or  object
+
+
+CreateView    and  UpdateView
+=======       === ============
+ template_name --->>  modelname_form.html
+
+ context_object_name ---->> form
+
+
+
+DeleteView
+=======
+ template_name --->>  modelname_confirm_delete.html
+
+ context_object_name ---->> object
+
+
+
+
+
+
+Note : FBV views are calling like  views.ViewName
+
+       CBV views are calling like  views.ViewName.as_view()
+
+
+
+Note :   if we forgetting the  as_view() as a  suffix of our view name then django  consider this name created by def keyword  as FBV. but not treat like       created by class keyword as CBV. 
+         
+         So finally we are getting errors.
+
+
+
+success_url --->> refresents the target page url pattern which should be                                    displayed by   after   delete.
+
+reverse_lazy()--->> function will wait until  deleting the record. next assigning                      the  input url name to success_url 
+
+
+success_url  = reverse_lazy('contact_list')
+
+
+from django.urls import reverse_lazy
+
+
+
+from django.urls import reverse
+ 
+class Contact(models.Model):
+   ----
+   ----
+
+   def get_absolute_url(self):
+        return reverse('contact_list')
+
+
+
+
+Q ) why required application urls in a Project ?
+
+
+
+
+
+Create a project to store the form data by using CBV and FBV views.
+==============     =======================    =================
+
+project name
+application name
+database name
+
+settings.py
+
+project level __init__.py
+
+models.py 
+=======
+from django.db import models
+
+class Book(models.Model):
+    title = models.CharField(max_length=100)
+    author = models.CharField(max_length=100)
+    pages = models.IntegerField()
+    price = models.FloatField()
+
+
+admin.py
+========
+
+from django.contrib import admin
+from .models import Book
+
+class BookAdmin(admin.ModelAdmin):
+    list_display = ['id','title','author','pages','price']
+
+admin.site.register(Book,BookAdmin)
+
+
+
+
+views.py
+=======
+
+from django.http import HttpResponse
+from django.views import View
+from django.views.generic import ListView
+from ClassBasedView_App.models import Book
+
+class HellowWorldView(View):
+    def get(self,request):
+        return HttpResponse('<h1>This is from Class based view</h1>')
+
+
+class BookListView(ListView):
+    model = Book
+
+
+
+
+

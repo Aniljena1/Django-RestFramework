@@ -1,0 +1,27 @@
+
+<html>
+<head>
+    <title>Importing Data</title>
+    <style>
+        body{
+            background-color: antiquewhite;
+        }
+        form{
+            height: 100px;
+            width: 200px;
+            background-color: aquamarine;
+            padding: 30px;
+        }
+    </style>
+</head>
+<body>
+
+
+<h2>Upload your data file here..</h2>
+<form method="POST"  enctype="multipart/form-data">
+    {% csrf_token %}
+    <input type="file" name="myfile"><br><br>
+    <button type="submit">Upload</button>
+  </form>
+</body>
+</html>
